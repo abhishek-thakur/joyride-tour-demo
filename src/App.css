@@ -1,0 +1,51 @@
+.App {
+  text-align: center;
+  height: 100vh;
+}
+.box {
+  margin: 100px auto;
+  border: 3px solid green;
+  height: 200px;
+  width: 200px;
+}
+.App-header {
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.section-button {
+  margin: 20px auto;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  font-size: larger;
+}
+
+.App-span {
+  padding: 5px;
+  margin-right: 10px;
+  border: 2px solid;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
