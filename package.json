@@ -10,11 +10,20 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@mantine/core": "^5.7.1",
+    "@mantine/dates": "^5.7.2",
+    "@mantine/form": "^5.7.2",
     "@mantine/hooks": "^5.7.1",
+    "@radix-ui/react-icons": "^1.1.1",
+    "a11y-checker": "^2.2.1",
+    "dayjs": "^1.11.6",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-joyride": "^2.5.3"
+    "react-joyride": "^2.5.3",
+    "react-router-dom": "^6.4.3",
+    "react-use": "^17.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

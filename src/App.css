@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  height: 100vh;
 }
 .box {
   margin: 100px auto;
@@ -11,6 +10,7 @@
 .App-header {
   font-size: calc(10px + 2vmin);
   color: white;
+  margin-left: 5px;
 }
 
 .section-button {
