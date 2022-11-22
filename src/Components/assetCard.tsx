@@ -164,21 +164,6 @@ const AssetCard = ({
           <Text weight={600}>{asset.scan_cycle_count}</Text>
         </Stack>
         <Divider orientation="vertical" mx="xs" size="xs" />
-        {/* <VulnBreakup item={asset.vuln_breakup} short={false} /> */}
-
-        <Divider
-          sx={{
-            height: "auto !important",
-            display: smallScreen ? "none" : "flex",
-          }}
-          variant="solid"
-          orientation="vertical"
-        />
-        {/* <StatusBreakup
-            item={asset.cve_status_distribution}
-            short={false}
-            heading={false}
-          /> */}
       </Group>
     </Card>
   );

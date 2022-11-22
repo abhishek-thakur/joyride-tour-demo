@@ -23,6 +23,3 @@ function App() {
   );
 }
 export default App;
-function logGroup(type: string, data: CallBackProps) {
-  throw new Error("Function not implemented.");
-}

@@ -26,145 +26,31 @@ import asset from "../Response/assets.json";
 import AssetCard, { Asset } from "./assetCard";
 import CreateAsset from "./CreateAsset";
 import styled from "@emotion/styled";
+import useStore from "../Store";
 interface State {
   complete: boolean;
   run: boolean;
-  // modalOpen: boolean;
-  // stepIndex: number;
   steps: Step[];
-}
-interface StateChange {
-  isOpen: boolean;
 }
 interface CheckedAssetsProps {
   unique_id: string;
   host: string;
 }
 const ListAssets = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  // let [stepIndex, setStepIdx] = useState(0);
   const [checked, setChecked] = useState<CheckedAssetsProps[]>([]);
+  const [demoFlag, setDemoFlag] = useState(false);
+  const setCompleted = useStore((state) => state.setCompleted);
+  const completed = useStore((state) => state.completed);
   const pulse = keyframes`
   0% {
     transform: scale(1);
   }
-
+  
   55% {
     background-color: rgba(48, 48, 232, 0.9);
     transform: scale(1.6);
   }
 `;
-  // const [{ run, steps, stepIndex }, setState] = useState<State>({
-  //   run: true,
-  //   steps: [
-  //     {
-  //       content: (
-  //         <div>
-  //           You can interact with your own components through the spotlight.
-  //           <br />
-  //           Click the bulk Upload above!
-  //         </div>
-  //       ),
-  //       disableBeacon: true,
-  //       disableOverlayClose: true,
-  //       hideCloseButton: true,
-  //       hideFooter: true,
-  //       placement: "bottom",
-  //       spotlightClicks: true,
-  //       styles: {
-  //         options: {
-  //           zIndex: 10000,
-  //         },
-  //       },
-  //       target: "#bulk_upload",
-  //       title: "Upload",
-  //     },
-  //   ],
-  //   stepIndex: 0,
-  // });
-  // const handleJoyrideCallback = (data: CallBackProps) => {
-  //   setState({
-  //     run: true,
-  //     steps: [],
-  //     stepIndex: 1,
-  //   });
-  //   const { action, index, status, type } = data;
-
-  //   if (([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)) {
-  //     // Need to set our running state to false, so we can restart if we click start again.
-  //     setState({ run: false, steps: [], stepIndex: 0 });
-  //     // setStepIdx(0);
-  //   } else if (
-  //     ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND] as string[]).includes(type)
-  //   ) {
-  //     const nextStepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
-
-  //     if (modalOpen && index === 0) {
-  //       setTimeout(() => {
-  //         setState({
-  //           run: true,
-  //           steps: [
-  //             {
-  //               content:
-  //                 "This is our sidebar, you can find everything you need here",
-  //               placement: "right",
-  //               spotlightPadding: 0,
-  //               styles: {
-  //                 options: {
-  //                   zIndex: 10000,
-  //                 },
-  //               },
-  //               target: "#create_asset",
-  //               title: "Create Asset",
-  //             },
-  //           ],
-  //           stepIndex: 1,
-  //         });
-  //       }, 400);
-  //     } else if (modalOpen && index === 1) {
-  //       setState({
-  //         run: false,
-  //         steps: [
-  //           {
-  //             content:
-  //               "This is our sidebar, you can find everything you need here",
-  //             placement: "right",
-  //             spotlightPadding: 0,
-  //             styles: {
-  //               options: {
-  //                 zIndex: 10000,
-  //               },
-  //             },
-  //             target: "#createAsset",
-  //             title: "Create Asset",
-  //           },
-  //         ],
-  //         stepIndex: nextStepIndex,
-  //       });
-  //       setModalOpen(false);
-  //       // setStepIdx(nextStepIndex),
-  //       setTimeout(() => {
-  //         setState({ run: true, steps: [], stepIndex: nextStepIndex });
-  //       }, 400);
-  //     } else if (index === 2 && action === ACTIONS.PREV) {
-  //       setState({
-  //         run: false,
-  //         steps: [],
-  //         stepIndex: nextStepIndex,
-  //       });
-  //       setModalOpen(true);
-  //       // setStepIdx(nextStepIndex);
-
-  //       setTimeout(() => {
-  //         setState({ run: true, steps: [], stepIndex: nextStepIndex });
-  //       }, 400);
-  //     } else {
-  //       // Update state to advance the tour
-  //       setModalOpen(false);
-  //       // setStepIdx(nextStepIndex);
-  //     }
-  //   }
-  // };
   const BeaconButton = styled.button`
     animation: ${pulse} 1s ease-in-out infinite;
     background-color: rgba(48, 48, 232, 0.6);
@@ -180,38 +66,31 @@ const ListAssets = () => {
       return <BeaconButton ref={ref} {...props} />;
     }
   );
+  const step = [
+    {
+      content: "Bulk Upload option to create more than one assets at a time",
+      placementBeacon: "top" as const,
+      target: "#bulk_upload",
+      title: "Our awesome projects",
+    },
+    {
+      content: "To create the Assets please click this button.",
+      disableCloseOnEsc: true,
+      disableOverlay: true,
+      target: "#create_asset",
+      title: "Create Asset",
+    },
+    {
+      content: "To go one step back",
+      placement: "top" as const,
+      target: "#back_button",
+      title: "Back one Step",
+    },
+  ];
   const [{ complete, run, steps }, setState] = useState<State>({
     complete: false,
     run: true,
-    steps: [
-      {
-        content: (
-          <>
-            <h5 style={{ marginTop: 0 }}>Bulk Upload Assets</h5>
-            <p>
-              Here we can upload a .csv file to create assets on large scale.
-            </p>
-            <Text weight="bolder">Click to open Upload Option</Text>
-          </>
-        ),
-        placementBeacon: "top" as const,
-        target: "#bulk_upload",
-        title: "Our awesome projects",
-      },
-      {
-        content: "To create the Assets please click this button.",
-        disableCloseOnEsc: true,
-        disableOverlay: true,
-        target: "#create_asset",
-        title: "Create Asset",
-      },
-      {
-        content: "To go one step back",
-        placement: "top" as const,
-        target: "#back_button",
-        title: "Back one Step",
-      },
-    ],
+    steps: step,
   });
   const helpers = useRef<StoreHelpers>();
 
@@ -225,21 +104,18 @@ const ListAssets = () => {
 
     if (options.includes(status)) {
       setState({ complete: true, run: false, steps: [] });
+      setDemoFlag(true);
+      setCompleted(true);
+      console.log(completed);
     }
   };
-
-  // const handleClickOpen = () => {
-  //   setState({
-  //     run: stepIndex === 0 ? false : run,
-  //     steps: [],
-  //     stepIndex: stepIndex === 0 ? 1 : stepIndex,
-  //   });
-  //   setModalOpen(!modalOpen);
-  //   // stepIndex =
-  // };
-
-  const handleStateChange = ({ isOpen }: StateChange) => {
-    setModalOpen(isOpen);
+  const handleClickRestart = () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    setCompleted(false);
+    console.log(completed);
+    const { reset } = helpers.current!;
+    setState({ complete: false, run: true, steps: step });
+    reset(true);
   };
 
   const navigate = useNavigate();
@@ -247,27 +123,34 @@ const ListAssets = () => {
   const [openCreate, setOpenCreate] = useState(false);
   return (
     <Container size="xl" style={{ marginLeft: "50px" }}>
-      <Joyride
-        beaconComponent={BeaconComponent}
-        callback={handleJoyrideCallback}
-        getHelpers={setHelpers}
-        run={run}
-        scrollToFirstStep
-        showSkipButton
-        steps={steps}
-        styles={{
-          options: {
-            zIndex: 2000000,
-          },
-          overlay: {
-            backgroundColor: "rgba(79, 46, 8, 0.5)",
-          },
-        }}
-      />
+      {!completed && (
+        <Joyride
+          beaconComponent={BeaconComponent}
+          callback={handleJoyrideCallback}
+          getHelpers={setHelpers}
+          run={run}
+          scrollToFirstStep
+          showSkipButton
+          steps={steps}
+          styles={{
+            options: {
+              zIndex: 2000000,
+            },
+            overlay: {
+              backgroundColor: "rgba(79, 46, 8, 0.5)",
+            },
+          }}
+        />
+      )}
       <Group
         position="right"
         style={{ marginTop: "10px", marginBottom: "5px" }}
       >
+        {complete && (
+          <Button size="xs" color="red" onClick={handleClickRestart}>
+            Restart tour
+          </Button>
+        )}
         <Button
           id="bulk_upload"
           data-testid="bulk_button"
@@ -302,11 +185,7 @@ const ListAssets = () => {
           />
         );
       })}
-      <Modal
-        onChange={() => handleStateChange}
-        opened={openCreate}
-        onClose={() => setOpenCreate(false)}
-      >
+      <Modal opened={openCreate} onClose={() => setOpenCreate(false)}>
         <CreateAsset setOpenCreate={setOpenCreate} />
       </Modal>
     </Container>
