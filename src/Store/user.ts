@@ -19,8 +19,7 @@ const createUserSlice: StateCreator<
 > = (set) => ({
   user: undefined,
   completed: undefined,
-  setCompleted: (e: boolean) =>
-    set((_state) => ({ completed: !_state.completed })),
+  setCompleted: (e: boolean) => set((_state) => ({ completed: e })),
   setUser: (newUser: User | null) => set((_state) => ({ user: newUser })),
 });
 

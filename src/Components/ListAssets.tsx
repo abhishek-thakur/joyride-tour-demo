@@ -146,7 +146,7 @@ const ListAssets = () => {
         position="right"
         style={{ marginTop: "10px", marginBottom: "5px" }}
       >
-        {complete && (
+        {completed && (
           <Button size="xs" color="red" onClick={handleClickRestart}>
             Restart tour
           </Button>
