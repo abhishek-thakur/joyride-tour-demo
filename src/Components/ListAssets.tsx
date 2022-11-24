@@ -27,7 +27,7 @@ import AssetCard, { Asset } from "./assetCard";
 import CreateAsset from "./CreateAsset";
 import styled from "@emotion/styled";
 import useStore from "../Store";
-interface State {
+export interface State {
   complete: boolean;
   run: boolean;
   steps: Step[];
@@ -38,7 +38,6 @@ interface CheckedAssetsProps {
 }
 const ListAssets = () => {
   const [checked, setChecked] = useState<CheckedAssetsProps[]>([]);
-  const [demoFlag, setDemoFlag] = useState(false);
   const setCompleted = useStore((state) => state.setCompleted);
   const completed = useStore((state) => state.completed);
   const pulse = keyframes`
@@ -104,15 +103,12 @@ const ListAssets = () => {
 
     if (options.includes(status)) {
       setState({ complete: true, run: false, steps: [] });
-      setDemoFlag(true);
       setCompleted(true);
-      console.log(completed);
     }
   };
   const handleClickRestart = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setCompleted(false);
-    console.log(completed);
     const { reset } = helpers.current!;
     setState({ complete: false, run: true, steps: step });
     reset(true);
