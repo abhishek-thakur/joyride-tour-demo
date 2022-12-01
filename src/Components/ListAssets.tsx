@@ -103,12 +103,12 @@ const ListAssets = () => {
 
     if (options.includes(status)) {
       setState({ complete: true, run: false, steps: [] });
-      setCompleted(true);
+      setCompleted("01");
     }
   };
   const handleClickRestart = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setCompleted(false);
+    setCompleted("00");
     const { reset } = helpers.current!;
     setState({ complete: false, run: true, steps: step });
     reset(true);
@@ -119,7 +119,7 @@ const ListAssets = () => {
   const [openCreate, setOpenCreate] = useState(false);
   return (
     <Container size="xl" style={{ marginLeft: "50px" }}>
-      {!completed && (
+      {completed == "00" && (
         <Joyride
           beaconComponent={BeaconComponent}
           callback={handleJoyrideCallback}
@@ -142,7 +142,7 @@ const ListAssets = () => {
         position="right"
         style={{ marginTop: "10px", marginBottom: "5px" }}
       >
-        {completed && (
+        {completed != "00" && (
           <Button size="xs" color="red" onClick={handleClickRestart}>
             Restart tour
           </Button>

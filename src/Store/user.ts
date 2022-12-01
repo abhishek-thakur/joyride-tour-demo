@@ -3,10 +3,8 @@ import { MyStore } from ".";
 
 interface UserState {
   user?: User | null;
-  completed?: boolean;
-  demoFlag?: boolean;
-  setDemoFlag: (e: boolean) => void;
-  setCompleted: (e: boolean) => void;
+  completed?: string;
+  setCompleted: (e: string) => void;
   setUser: (newUser: User | null) => void;
 }
 interface User {
@@ -21,9 +19,7 @@ const createUserSlice: StateCreator<
 > = (set) => ({
   user: undefined,
   completed: undefined,
-  demoFlag: undefined,
-  setDemoFlag: (e: boolean) => set((_state) => ({ demoFlag: e })),
-  setCompleted: (e: boolean) => set((_state) => ({ completed: e })),
+  setCompleted: (e: string) => set((_state) => ({ completed: e })),
   setUser: (newUser: User | null) => set((_state) => ({ user: newUser })),
 });
 

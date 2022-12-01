@@ -9,8 +9,8 @@ import { State } from "./ListAssets";
 
 const Home = () => {
   const navigate = useNavigate();
-  const setDemoFlag = useStore((state) => state.setDemoFlag);
-  const demoFlag = useStore((state) => state.demoFlag);
+  const setCompleted = useStore((state) => state.setCompleted);
+  const completed = useStore((state) => state.completed);
   const pulse = keyframes`
   0% {
     transform: scale(1);
@@ -120,12 +120,12 @@ const Home = () => {
 
     if (options.includes(status)) {
       setState({ complete: true, run: false, steps: [] });
-      setDemoFlag(true);
+      setCompleted("10");
     }
   };
   const handleClickRestart = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setDemoFlag(false);
+    setCompleted("11");
     const { reset } = helpers.current!;
     setState({ complete: false, run: true, steps: step });
     reset(true);
@@ -147,7 +147,7 @@ const Home = () => {
           },
         }}
       /> */}
-      {!demoFlag && (
+      {completed == "11" && (
         <Joyride
           beaconComponent={BeaconComponent}
           callback={handleJoyrideCallback}
@@ -206,7 +206,7 @@ const Home = () => {
       <section className="box">
         <h1>demo box</h1>
         <div> box content </div>
-        {demoFlag && (
+        {completed != "11" && (
           <button className="section-button" onClick={handleClickRestart}>
             Start
           </button>
