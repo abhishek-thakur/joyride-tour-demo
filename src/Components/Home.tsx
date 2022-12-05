@@ -120,12 +120,12 @@ const Home = () => {
 
     if (options.includes(status)) {
       setState({ complete: true, run: false, steps: [] });
-      setCompleted("10");
+      setCompleted("01");
     }
   };
   const handleClickRestart = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setCompleted("11");
+    setCompleted("10");
     const { reset } = helpers.current!;
     setState({ complete: false, run: true, steps: step });
     reset(true);
@@ -147,7 +147,7 @@ const Home = () => {
           },
         }}
       /> */}
-      {completed == "11" && (
+      {completed?.charAt(0) == "1" && (
         <Joyride
           beaconComponent={BeaconComponent}
           callback={handleJoyrideCallback}
@@ -206,7 +206,7 @@ const Home = () => {
       <section className="box">
         <h1>demo box</h1>
         <div> box content </div>
-        {completed != "11" && (
+        {completed?.charAt(0) == "0" && (
           <button className="section-button" onClick={handleClickRestart}>
             Start
           </button>
