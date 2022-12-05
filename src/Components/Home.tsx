@@ -6,11 +6,23 @@ import { CallBackProps, STATUS, Step } from "react-joyride";
 import { NavLink, useNavigate } from "react-router-dom";
 import useStore from "../Store";
 import { State } from "./ListAssets";
+import { get_page_joyride_status, Pages, set_page_joyride_status, toggle_page_joyride_status } from "../utils/joyride_encoding";
+
+
 
 const Home = () => {
   const navigate = useNavigate();
   const setCompleted = useStore((state) => state.setCompleted);
   const completed = useStore((state) => state.completed);
+  /* const toggled = toggle_page_joyride_status(HOME_PAGE) */
+  /* console.log(toggled) */
+  console.log(get_page_joyride_status(Pages.HOME_PAGE))
+  console.log(get_page_joyride_status(Pages.LIST_ASSET_PAGE))
+  set_page_joyride_status(Pages.HOME_PAGE, true)
+  set_page_joyride_status(Pages.LIST_ASSET_PAGE, false)
+  console.log(completed!)
+  console.log(get_page_joyride_status(Pages.HOME_PAGE))
+  console.log(get_page_joyride_status(Pages.LIST_ASSET_PAGE))
   const pulse = keyframes`
   0% {
     transform: scale(1);
