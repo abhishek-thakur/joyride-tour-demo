@@ -16,11 +16,9 @@ const createUserSlice: StateCreator<
   [["zustand/persist", unknown]],
   [],
   UserState
-> = (set, get) => ({
+> = (set) => ({
   user: undefined,
   completed: "00",
-  getHome: () => get()?.completed?.charAt(0),
-  getListAsset: () => get()?.completed?.charAt(1),
   setCompleted: (e: string) => set((_state) => ({ completed: e })),
   setUser: (newUser: User | null) => set((_state) => ({ user: newUser })),
 });
