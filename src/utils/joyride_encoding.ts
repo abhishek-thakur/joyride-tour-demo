@@ -1,4 +1,3 @@
-import useStore from "../Store";
 /* interface PageIndex { */
 /*   [key in keyof typeof Pages]: number */
 /* } */
@@ -19,40 +18,38 @@ const page_index: Record<string, number> = {
 const get_page_index: (name: string) => number = (name: string) =>
   page_index[name];
 
-// const get_page_joyride_status = (page: string) => {
-//   const completed = useStore((state) => state.completed);
-//   const idx = get_page_index(page);
-//   return completed![idx] == "1";
-// };
+const get_page_joyride_status = (completed: string, page: string) => {
+  const idx = get_page_index(page);
+  return completed![idx] == "1";
+};
 
-// const set_page_joyride_status = (page: string, new_value: boolean) => {
-//   const completed = useStore((state) => state.completed);
-//   const setCompleted = useStore((state) => state.setCompleted);
-//   const idx = get_page_index(page);
-//   let tmp_array = completed!.split("");
-//   tmp_array[idx] = new_value == true ? "1" : "0";
+const set_page_joyride_status = (
+  completed: string,
+  page: string,
+  new_value: boolean
+) => {
+  const idx = get_page_index(page);
+  let tmp_array = completed!.split("");
+  tmp_array[idx] = new_value == true ? "1" : "0";
 
-//   setCompleted(tmp_array.join(""));
-// };
+  return tmp_array.join("");
+};
 
-// const toggle_page_joyride_status = (page: string) => {
-//   const completed = useStore((state) => state.completed);
-//   const setCompleted = useStore((state) => state.setCompleted);
-//   const idx = get_page_index(page);
-//   let tmp_array = completed!.split("");
-//   if (tmp_array[idx] == "1") {
-//     tmp_array[idx] = "0";
-//   } else if (tmp_array[idx] == "0") {
-//     tmp_array[idx] = "1";
-//   }
-
-//   setCompleted(tmp_array.join(""));
-// };
+const toggle_page_joyride_status = (completed: string, page: string) => {
+  const idx = get_page_index(page);
+  let tmp_array = completed!.split("");
+  if (tmp_array[idx] == "1") {
+    tmp_array[idx] = "0";
+  } else if (tmp_array[idx] == "0") {
+    tmp_array[idx] = "1";
+  }
+  return tmp_array.join("");
+};
 
 export {
   get_page_index,
-  // get_page_joyride_status,
-  // set_page_joyride_status,
-  // toggle_page_joyride_status,
+  get_page_joyride_status,
+  set_page_joyride_status,
+  toggle_page_joyride_status,
   Pages,
 };

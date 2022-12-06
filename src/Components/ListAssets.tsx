@@ -27,7 +27,12 @@ import AssetCard, { Asset } from "./assetCard";
 import CreateAsset from "./CreateAsset";
 import styled from "@emotion/styled";
 import useStore from "../Store";
-import { get_page_index, Pages } from "../utils/joyride_encoding";
+import {
+  get_page_joyride_status,
+  Pages,
+  set_page_joyride_status,
+  toggle_page_joyride_status,
+} from "../utils/joyride_encoding";
 export interface State {
   complete: boolean;
   run: boolean;
@@ -98,55 +103,38 @@ const ListAssets = () => {
     helpers.current = storeHelpers;
   };
 
-  const set_page_joyride_status = (page: string, new_value: boolean) => {
-    const idx = get_page_index(page);
-    let tmp_array = completed!.split("");
-    tmp_array[idx] = new_value == true ? "1" : "0";
-    setCompleted(tmp_array.join(""));
-  };
-  const get_page_joyride_status = (page: string) => {
-    const idx = get_page_index(page);
-    return completed![idx] == "1";
-  };
-  const toggle_page_joyride_status = (page: string) => {
-    const idx = get_page_index(page);
-    let tmp_array = completed!.split("");
-    if (tmp_array[idx] == "1") {
-      tmp_array[idx] = "0";
-    } else if (tmp_array[idx] == "0") {
-      tmp_array[idx] = "1";
-    }
-    setCompleted(tmp_array.join(""));
-  };
-
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status, type } = data;
     const options: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
     if (options.includes(status)) {
       setState({ complete: true, run: false, steps: [] });
-      set_page_joyride_status(Pages.LIST_ASSET_PAGE, true);
-      // set_page_joyride_status(Pages.LIST_ASSET_PAGE, false);
-      console.log(completed);
-      console.log(get_page_joyride_status(Pages.LIST_ASSET_PAGE));
+      const newCompleted = set_page_joyride_status(
+        completed!,
+        Pages.LIST_ASSET_PAGE,
+        true
+      );
+      setCompleted(newCompleted);
     }
   };
 
-  // const toggled = toggle_page_joyride_status(Pages.LIST_ASSET_PAGE);
   const handleClickRestart = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    toggle_page_joyride_status(Pages.LIST_ASSET_PAGE);
-    // console.log(toggled);
-    const { reset } = helpers.current!;
+    const toggled = toggle_page_joyride_status(
+      completed!,
+      Pages.LIST_ASSET_PAGE
+    );
+    setCompleted(toggled);
+    // const { reset } = helpers.current!;
     setState({ complete: false, run: true, steps: step });
-    reset(true);
+    // reset(true);
   };
   const navigate = useNavigate();
   const icon_margin_right = { marginRight: "6px" };
   const [openCreate, setOpenCreate] = useState(false);
   return (
     <Container size="xl" style={{ marginLeft: "50px" }}>
-      {!get_page_joyride_status(Pages.LIST_ASSET_PAGE) && (
+      {!get_page_joyride_status(completed!, Pages.LIST_ASSET_PAGE) && (
         <Joyride
           beaconComponent={BeaconComponent}
           callback={handleJoyrideCallback}
@@ -169,7 +157,7 @@ const ListAssets = () => {
         position="right"
         style={{ marginTop: "10px", marginBottom: "5px" }}
       >
-        {get_page_joyride_status(Pages.LIST_ASSET_PAGE) && (
+        {get_page_joyride_status(completed!, Pages.LIST_ASSET_PAGE) && (
           <Button size="xs" color="red" onClick={handleClickRestart}>
             Restart tour
           </Button>
