@@ -6,23 +6,26 @@ import { CallBackProps, STATUS, Step } from "react-joyride";
 import { NavLink, useNavigate } from "react-router-dom";
 import useStore from "../Store";
 import { State } from "./ListAssets";
-import { get_page_joyride_status, Pages, set_page_joyride_status, toggle_page_joyride_status } from "../utils/joyride_encoding";
-
-
+import {
+  get_page_index,
+  // get_page_joyride_status,
+  Pages,
+  // set_page_joyride_status,
+  // toggle_page_joyride_status,
+} from "../utils/joyride_encoding";
 
 const Home = () => {
   const navigate = useNavigate();
-  const setCompleted = useStore((state) => state.setCompleted);
   const completed = useStore((state) => state.completed);
+  const setCompleted = useStore((state) => state.setCompleted);
+  // const setCompleted = useStore((state) => state.setCompleted);
+  // const completed = useStore((state) => state.completed);
   /* const toggled = toggle_page_joyride_status(HOME_PAGE) */
   /* console.log(toggled) */
-  console.log(get_page_joyride_status(Pages.HOME_PAGE))
-  console.log(get_page_joyride_status(Pages.LIST_ASSET_PAGE))
-  set_page_joyride_status(Pages.HOME_PAGE, true)
-  set_page_joyride_status(Pages.LIST_ASSET_PAGE, false)
-  console.log(completed!)
-  console.log(get_page_joyride_status(Pages.HOME_PAGE))
-  console.log(get_page_joyride_status(Pages.LIST_ASSET_PAGE))
+
+  // console.log(completed!);
+  // console.log(get_page_joyride_status(Pages.HOME_PAGE));
+  // console.log(get_page_joyride_status(Pages.LIST_ASSET_PAGE));
   const pulse = keyframes`
   0% {
     transform: scale(1);
@@ -126,18 +129,45 @@ const Home = () => {
   //     setState({ run: false, steps: [] });
   //   }
   // };
+  const set_page_joyride_status = (page: string, new_value: boolean) => {
+    const idx = get_page_index(page);
+    let tmp_array = completed!.split("");
+    tmp_array[idx] = new_value == true ? "1" : "0";
+    setCompleted(tmp_array.join(""));
+  };
+  const get_page_joyride_status = (page: string) => {
+    const idx = get_page_index(page);
+    return completed![idx] == "1";
+  };
+  const toggle_page_joyride_status = (page: string) => {
+    const idx = get_page_index(page);
+    let tmp_array = completed!.split("");
+    if (tmp_array[idx] == "1") {
+      tmp_array[idx] = "0";
+    } else if (tmp_array[idx] == "0") {
+      tmp_array[idx] = "1";
+    }
+    setCompleted(tmp_array.join(""));
+  };
+
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status, type } = data;
     const options: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
     if (options.includes(status)) {
       setState({ complete: true, run: false, steps: [] });
-      setCompleted("01");
+      set_page_joyride_status(Pages.HOME_PAGE, true);
+      // set_page_joyride_status(Pages.LIST_ASSET_PAGE, false);
+      console.log(completed);
+      console.log(get_page_joyride_status(Pages.HOME_PAGE));
     }
   };
+
+  // const toggled = toggle_page_joyride_status(Pages.HOME_PAGE);
   const handleClickRestart = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setCompleted("10");
+    toggle_page_joyride_status(Pages.HOME_PAGE);
+    // console.log(toggled);
     const { reset } = helpers.current!;
     setState({ complete: false, run: true, steps: step });
     reset(true);
@@ -159,7 +189,7 @@ const Home = () => {
           },
         }}
       /> */}
-      {completed?.charAt(0) == "1" && (
+      {!get_page_joyride_status(Pages.HOME_PAGE) && (
         <Joyride
           beaconComponent={BeaconComponent}
           callback={handleJoyrideCallback}
@@ -218,7 +248,7 @@ const Home = () => {
       <section className="box">
         <h1>demo box</h1>
         <div> box content </div>
-        {completed?.charAt(0) == "0" && (
+        {get_page_joyride_status(Pages.HOME_PAGE) && (
           <button className="section-button" onClick={handleClickRestart}>
             Start
           </button>
