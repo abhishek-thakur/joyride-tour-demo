@@ -1,19 +1,32 @@
-import styled from "@emotion/styled";
-import { Footer, Header, keyframes, Text } from "@mantine/core";
-import { forwardRef, useRef, useState } from "react";
-import Joyride, { BeaconRenderProps, StoreHelpers } from "react-joyride";
-import { CallBackProps, STATUS, Step } from "react-joyride";
+import {
+  Button,
+  Container,
+  Group,
+  Header,
+  keyframes,
+  Text,
+} from "@mantine/core";
+import { DoubleArrowLeftIcon } from "@radix-ui/react-icons";
 import { NavLink, useNavigate } from "react-router-dom";
-import useStore from "../Store";
-import { State } from "./ListAssets";
 import {
   get_page_joyride_status,
   Pages,
   set_page_joyride_status,
   toggle_page_joyride_status,
 } from "../utils/joyride_encoding";
+import Joyride, {
+  BeaconRenderProps,
+  CallBackProps,
+  STATUS,
+  Step,
+  StoreHelpers,
+} from "react-joyride";
+import styled from "@emotion/styled";
+import { forwardRef, useState, useRef } from "react";
+import useStore from "../Store";
+import { State } from "./ListAssets";
 
-const Home = () => {
+const ContactUs = () => {
   const navigate = useNavigate();
   const completed = useStore((state) => state.completed);
   const setCompleted = useStore((state) => state.setCompleted);
@@ -46,32 +59,19 @@ const Home = () => {
     {
       content: <h2>Let's begin our journey!</h2>,
       locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
-      placementBeacon: "top" as const,
-      target: ".box",
+      placementBeacon: "bottom" as const,
+      target: "#contact",
     },
     {
-      content: (
-        <div>
-          <h2>Home elements</h2>
-          <p>this is the link for Home for the org user</p>
-        </div>
-      ),
-      floaterProps: {
-        disableAnimation: true,
-      },
-      spotlightPadding: 20,
-      target: "#home",
-    },
-    {
-      content: "These are our super awesome dashboards!",
+      content: "Link for HOME Component!",
       placement: "bottom",
       styles: {
         options: {
           width: 300,
         },
       },
-      target: "#dashboard",
-      title: "Org Dashboards",
+      target: "#home",
+      title: "HOME Element",
     },
     {
       content: "This is the link for the org Assets!",
@@ -85,15 +85,28 @@ const Home = () => {
       title: "Org Assets",
     },
     {
-      content: "The box contains START button !",
+      content: (
+        <div>
+          <h2>Contact Us element</h2>
+          <p>this is the heading for Contact us page for the org user</p>
+        </div>
+      ),
+      floaterProps: {
+        disableAnimation: true,
+      },
+      spotlightPadding: 20,
+      target: "#contact",
+    },
+    {
+      content: "Here is the contact details to contact us !",
       placement: "right",
       styles: {
         options: {
           width: 300,
         },
       },
-      target: ".box",
-      title: "Sample box",
+      target: "#mail_id",
+      title: "Contact Details",
     },
   ];
   const [{ run, steps }, setState] = useState<State>({
@@ -115,7 +128,7 @@ const Home = () => {
       setState({ complete: true, run: false, steps: [] });
       const newCompleted = set_page_joyride_status(
         completed!,
-        Pages.HOME_PAGE,
+        Pages.CONTACT_US_PAGE,
         true
       );
       setCompleted(newCompleted);
@@ -124,15 +137,18 @@ const Home = () => {
 
   const handleClickRestart = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const toggled = toggle_page_joyride_status(completed!, Pages.HOME_PAGE);
+    const toggled = toggle_page_joyride_status(
+      completed!,
+      Pages.CONTACT_US_PAGE
+    );
     setCompleted(toggled);
     // const { reset } = helpers.current!;
     setState({ complete: false, run: true, steps: step });
     // reset(true);
   };
   return (
-    <div className="App">
-      {!get_page_joyride_status(completed!, Pages.HOME_PAGE) && (
+    <Container size="xl" m={"md"} className="App">
+      {!get_page_joyride_status(completed!, Pages.CONTACT_US_PAGE) && (
         <Joyride
           beaconComponent={BeaconComponent}
           callback={handleJoyrideCallback}
@@ -151,8 +167,9 @@ const Home = () => {
           }}
         />
       )}
-      <Header height="50px" className="App-header">
+      <Header height="50px" styles={{ margin: "10px" }} className="App-header">
         <Text
+          m={"lg"}
           id="home"
           variant="link"
           component={NavLink}
@@ -163,10 +180,6 @@ const Home = () => {
         >
           Home
         </Text>
-
-        <span className="App-span" id="dashboard">
-          Dashboard
-        </span>
         <Text
           id="Assets"
           variant="link"
@@ -178,39 +191,35 @@ const Home = () => {
         >
           Assets
         </Text>
-        <span className="App-span" id="CVE">
-          CVE Instance
-        </span>
-        <span className="App-span" id="scan">
-          Scan Cycle
-        </span>
-        <span className="App-span" id="issue">
-          Issues
-        </span>
-        <Text
-          variant="link"
-          component={NavLink}
-          to="contactUs"
-          onClick={() => {
-            navigate("contactUs");
-          }}
-        >
-          Contact Us
-        </Text>
       </Header>
-      <section className="box">
-        <h1>demo box</h1>
-        <div> box content </div>
-        {get_page_joyride_status(completed!, Pages.HOME_PAGE) && (
-          <button className="section-button" onClick={handleClickRestart}>
-            Start
-          </button>
+      <Group
+        position="right"
+        style={{ marginTop: "10px", marginBottom: "5px" }}
+      >
+        {get_page_joyride_status(completed!, Pages.CONTACT_US_PAGE) && (
+          <Button size="xs" color="red" onClick={handleClickRestart}>
+            Restart tour
+          </Button>
         )}
-      </section>
-      <Footer style={{ color: "white" }} height={"100px"}>
-        <h4>to start the demo trial please press START button</h4>
-      </Footer>
-    </div>
+        <Button id="back_button" size="xs" onClick={() => navigate(-1)}>
+          <DoubleArrowLeftIcon
+            style={{ height: "25px", width: "25px", cursor: "pointer" }}
+          />
+          Back
+        </Button>
+      </Group>
+      <h1 id="contact">Contact Us</h1>
+      <div>
+        <h2>We are here to help you</h2>
+        <div>
+          Please let use know your queries at{" "}
+          <Text id="mail_id" component="span" weight={"bolder"}>
+            support@egt.com
+          </Text>
+        </div>
+      </div>
+    </Container>
   );
 };
-export default Home;
+
+export default ContactUs;

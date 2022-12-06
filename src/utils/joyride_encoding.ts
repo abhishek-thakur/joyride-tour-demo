@@ -5,6 +5,7 @@
 const Pages = {
   HOME_PAGE: "home",
   LIST_ASSET_PAGE: "list_assets",
+  CONTACT_US_PAGE: "contact_us",
 } as const;
 /* type PageIndex = Record<keyof typeof Pages, number>; */
 
@@ -13,6 +14,7 @@ const Pages = {
 const page_index: Record<string, number> = {
   [Pages.HOME_PAGE]: 0,
   [Pages.LIST_ASSET_PAGE]: 1,
+  [Pages.CONTACT_US_PAGE]: 2,
 };
 
 const get_page_index: (name: string) => number = (name: string) =>
