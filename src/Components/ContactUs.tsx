@@ -184,9 +184,9 @@ const ContactUs = () => {
           id="Assets"
           variant="link"
           component={NavLink}
-          to="assets"
+          to="/assets"
           onClick={() => {
-            navigate("assets");
+            navigate("/assets");
           }}
         >
           Assets

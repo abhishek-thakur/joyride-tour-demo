@@ -54,4 +54,5 @@ export {
   set_page_joyride_status,
   toggle_page_joyride_status,
   Pages,
+  page_index,
 };
