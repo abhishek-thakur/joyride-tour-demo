@@ -12,11 +12,33 @@ import {
   set_page_joyride_status,
   toggle_page_joyride_status,
 } from "../utils/joyride_encoding";
+import { db } from "../utils/firebase_api";
+import { ref, set } from "firebase/database";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const Home = () => {
   const navigate = useNavigate();
   const completed = useStore((state) => state.completed);
   const setCompleted = useStore((state) => state.setCompleted);
+
+  const joyRef = doc(db, "joyride-demo", "completed");
+  const getData = async () => {
+    const getFromfireStore = await getDoc(joyRef);
+    if (getFromfireStore.exists()) console.log(getFromfireStore.data());
+  };
+  const saveState = async (input: string) => {
+    // set(ref(db, "Joyride-demo/"), {
+    //   completed: input,
+    // });
+    setDoc(joyRef, { completed: input });
+    // try {
+    //   addDoc(collection(db, "completed"), {
+    //     completed: input,
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
   const pulse = keyframes`
   0% {
     transform: scale(1);
@@ -119,6 +141,8 @@ const Home = () => {
         true
       );
       setCompleted(newCompleted);
+      saveState(newCompleted!);
+      getData();
     }
   };
 
