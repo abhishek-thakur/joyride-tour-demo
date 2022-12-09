@@ -33,6 +33,7 @@ import {
   set_page_joyride_status,
   toggle_page_joyride_status,
 } from "../utils/joyride_encoding";
+import { getData, saveState } from "../utils/firebase_api";
 export interface State {
   complete: boolean;
   run: boolean;
@@ -115,6 +116,8 @@ const ListAssets = () => {
         true
       );
       setCompleted(newCompleted);
+      saveState(newCompleted);
+      getData();
     }
   };
 

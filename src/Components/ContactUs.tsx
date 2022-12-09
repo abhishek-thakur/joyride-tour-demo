@@ -25,6 +25,7 @@ import styled from "@emotion/styled";
 import { forwardRef, useState, useRef } from "react";
 import useStore from "../Store";
 import { State } from "./ListAssets";
+import { getData, saveState } from "../utils/firebase_api";
 
 const ContactUs = () => {
   const navigate = useNavigate();
@@ -132,6 +133,8 @@ const ContactUs = () => {
         true
       );
       setCompleted(newCompleted);
+      saveState(newCompleted);
+      getData();
     }
   };
 
