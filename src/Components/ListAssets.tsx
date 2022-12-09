@@ -25,20 +25,16 @@ import { useNavigate } from "react-router-dom";
 import asset from "../Response/assets.json";
 import AssetCard, { Asset } from "./assetCard";
 import CreateAsset from "./CreateAsset";
-import styled from "@emotion/styled";
 import useStore from "../Store";
 import {
+  BeaconButton,
   get_page_joyride_status,
   Pages,
   set_page_joyride_status,
+  State,
   toggle_page_joyride_status,
 } from "../utils/joyride_encoding";
 import { getData, saveState } from "../utils/firebase_api";
-export interface State {
-  complete: boolean;
-  run: boolean;
-  steps: Step[];
-}
 interface CheckedAssetsProps {
   unique_id: string;
   host: string;
@@ -47,25 +43,6 @@ const ListAssets = () => {
   const [checked, setChecked] = useState<CheckedAssetsProps[]>([]);
   const setCompleted = useStore((state) => state.setCompleted);
   const completed = useStore((state) => state.completed);
-  const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  
-  55% {
-    background-color: rgba(48, 48, 232, 0.9);
-    transform: scale(1.6);
-  }
-`;
-  const BeaconButton = styled.button`
-    animation: ${pulse} 1s ease-in-out infinite;
-    background-color: rgba(48, 48, 232, 0.6);
-    border: 0;
-    border-radius: 50%;
-    display: inline-block;
-    height: 3rem;
-    width: 3rem;
-  `;
 
   const BeaconComponent = forwardRef<HTMLButtonElement, BeaconRenderProps>(
     (props, ref) => {

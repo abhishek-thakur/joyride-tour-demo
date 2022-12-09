@@ -1,15 +1,15 @@
-import styled from "@emotion/styled";
-import { Footer, Header, keyframes, Text } from "@mantine/core";
+import { Footer, Header, Text } from "@mantine/core";
 import { forwardRef, useRef, useState } from "react";
 import Joyride, { BeaconRenderProps, StoreHelpers } from "react-joyride";
 import { CallBackProps, STATUS, Step } from "react-joyride";
 import { NavLink, useNavigate } from "react-router-dom";
 import useStore from "../Store";
-import { State } from "./ListAssets";
 import {
+  BeaconButton,
   get_page_joyride_status,
   Pages,
   set_page_joyride_status,
+  State,
   toggle_page_joyride_status,
 } from "../utils/joyride_encoding";
 import { getData, saveState } from "../utils/firebase_api";
@@ -18,44 +18,6 @@ const Home = () => {
   const navigate = useNavigate();
   const completed = useStore((state) => state.completed);
   const setCompleted = useStore((state) => state.setCompleted);
-
-  // const joyRef = doc(db, "joyride-demo", "completed");
-  // const getData = async () => {
-  //   const getFromfireStore = await getDoc(joyRef);
-  //   if (getFromfireStore.exists()) console.log(getFromfireStore.data());
-  // };
-  // const saveState = async (input: string) => {
-  // set(ref(db, "Joyride-demo/"), {
-  //   completed: input,
-  // });
-  // setDoc(joyRef, { completed: input });
-  // try {
-  //   addDoc(collection(db, "completed"), {
-  //     completed: input,
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  // }
-  // };
-  const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  
-  55% {
-    background-color: rgba(48, 48, 232, 0.9);
-    transform: scale(1.6);
-  }
-`;
-  const BeaconButton = styled.button`
-    animation: ${pulse} 1s ease-in-out infinite;
-    background-color: rgba(48, 48, 232, 0.6);
-    border: 0;
-    border-radius: 50%;
-    display: inline-block;
-    height: 3rem;
-    width: 3rem;
-  `;
 
   const BeaconComponent = forwardRef<HTMLButtonElement, BeaconRenderProps>(
     (props, ref) => {

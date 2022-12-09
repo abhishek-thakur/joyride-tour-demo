@@ -2,6 +2,16 @@
 /*   [key in keyof typeof Pages]: number */
 /* } */
 
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
+import { Step } from "react-joyride";
+
+export interface State {
+  complete: boolean;
+  run: boolean;
+  steps: Step[];
+}
+
 const Pages = {
   HOME_PAGE: "home",
   LIST_ASSET_PAGE: "list_assets",
@@ -48,6 +58,26 @@ const toggle_page_joyride_status = (completed: string, page: string) => {
   return tmp_array.join("");
 };
 
+const pulse = keyframes`
+0% {
+  transform: scale(1);
+}
+
+55% {
+  background-color: rgba(48, 48, 232, 0.9);
+  transform: scale(1.6);
+}
+`;
+const BeaconButton = styled.button`
+  animation: ${pulse} 1s ease-in-out infinite;
+  background-color: rgba(48, 48, 232, 0.6);
+  border: 0;
+  border-radius: 50%;
+  display: inline-block;
+  height: 3rem;
+  width: 3rem;
+`;
+
 export {
   get_page_index,
   get_page_joyride_status,
@@ -55,4 +85,5 @@ export {
   toggle_page_joyride_status,
   Pages,
   page_index,
+  BeaconButton,
 };

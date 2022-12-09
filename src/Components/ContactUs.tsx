@@ -1,14 +1,8 @@
-import {
-  Button,
-  Container,
-  Group,
-  Header,
-  keyframes,
-  Text,
-} from "@mantine/core";
+import { Button, Container, Group, Header, Text } from "@mantine/core";
 import { DoubleArrowLeftIcon } from "@radix-ui/react-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
+  BeaconButton,
   get_page_joyride_status,
   Pages,
   set_page_joyride_status,
@@ -21,35 +15,15 @@ import Joyride, {
   Step,
   StoreHelpers,
 } from "react-joyride";
-import styled from "@emotion/styled";
 import { forwardRef, useState, useRef } from "react";
 import useStore from "../Store";
-import { State } from "./ListAssets";
+import { State } from "../utils/joyride_encoding";
 import { getData, saveState } from "../utils/firebase_api";
 
 const ContactUs = () => {
   const navigate = useNavigate();
   const completed = useStore((state) => state.completed);
   const setCompleted = useStore((state) => state.setCompleted);
-  const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  
-  55% {
-    background-color: rgba(48, 48, 232, 0.9);
-    transform: scale(1.6);
-  }
-`;
-  const BeaconButton = styled.button`
-    animation: ${pulse} 1s ease-in-out infinite;
-    background-color: rgba(48, 48, 232, 0.6);
-    border: 0;
-    border-radius: 50%;
-    display: inline-block;
-    height: 3rem;
-    width: 3rem;
-  `;
 
   const BeaconComponent = forwardRef<HTMLButtonElement, BeaconRenderProps>(
     (props, ref) => {
